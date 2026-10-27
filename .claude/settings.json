@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && uv run --quiet polishare limpar --quieto 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Apagando PDFs vencidos do Polishare"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in */materias/*/estudo/simulados/.fontes/*.tex|*/materias/*/estudo/simulados/.fontes/*.typ|*/materias/*/estudo/simulados/.fontes/*.svg) cd \"${f%%/materias/*}\" && uv run --quiet polishare pdf >&2 || exit 2;; esac",
+            "timeout": 600,
+            "statusMessage": "Compilando o simulado para PDF"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8">
+		<title>Polishare</title>
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+		<meta name="description" content="Plataforma de compartilhamento de provas antigas, resoluções de exercícios, listas e resumos da Escola Politécnica">
+
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/edit.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+
+		
+		
+		
+
+
+		<style>.cookieConsentContainer{z-index:999;width:350px;min-height:20px;box-sizing:border-box;padding:30px 30px 30px 30px;background:#232323;overflow:hidden;position:fixed;bottom:30px;right:30px;display:none}.cookieConsentContainer .cookieTitle a{font-family:OpenSans,arial,sans-serif;color:#fff;font-size:22px;line-height:20px;display:block}.cookieConsentContainer .cookieDesc p{margin:0;padding:0;font-family:OpenSans,arial,sans-serif;color:#fff;font-size:13px;line-height:20px;display:block;margin-top:10px}.cookieConsentContainer .cookieDesc a{font-family:OpenSans,arial,sans-serif;color:#fff;text-decoration:underline}.cookieConsentContainer .cookieButton a{display:inline-block;font-family:OpenSans,arial,sans-serif;color:#fff;font-size:14px;font-weight:700;margin-top:14px;background:#000;box-sizing:border-box;padding:15px 24px;text-align:center;transition:background .3s}.cookieConsentContainer .cookieButton a:hover{cursor:pointer;background:#3e9b67}@media (max-width:980px){.cookieConsentContainer{bottom:0!important;left:0!important;width:100%!important}}</style>
+
+
+		
+		
+		<!-- Facebook Pixel Code -->
+		
+		
+		<!-- End Facebook Pixel Code -->
+		<!-- Google tag (gtag.js) -->
+		
+		
+
+	</head>
+	<body>
+		<header class="navbar-inverse">
+			<div class="container">
+				<nav role="navigation">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Ativar Navegação</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="./">Polishare</a>
+						</div>
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<form action="login.php?&f=ExY" method="POST" class="nav navbar-form navbar-right" role="login"> <div class="form-group"><input name="email" type="email" class="form-control" placeholder="Email"></div> <div class="form-group"><input name="password" type="password" class="form-control" placeholder="Senha"></div> <button type="submit" class="btn btn-default">Acessar</button></form>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</header>
+
+		<div class="container">
+	<div class="row" style="margin-top: 20px">
+
+		<div class="col-xs-6 col-sm-3">
+			<div class="thumbnail">
+				<img src="./image/share.png" alt="Compartilhe"/>
+				<div class="caption text-center">
+					<h3>Compartilhe</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-3">
+			<div class="thumbnail">
+				<img src="./image/publish.png" alt="Publique"/>
+				<div class="caption text-center">
+					<h3>Publique</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6  col-sm-3">
+			<div class="thumbnail">
+				<img src="./image/search.png" alt="Pesquise"/>
+				<div class="caption text-center">
+					<h3>Pesquise</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-3">
+			<div class="thumbnail">
+				<img src="./image/contribute.png" alt="Contribua"/>
+				<div class="caption text-center">
+					<h3>Contribua</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container"><div class="alert alert-danger alert-dismissable col-lg-6 col-lg-offset-3">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+				&times;
+			</button><strong>Atenção</strong> é necessário estar autenticado para vizualizar esta página</div></div>﻿<div class="container">
+	<form action="index.php?action=signup" method="POST">
+
+		<div class="col-sm-6 col-sm-offset-3 col-xs-12">
+			<!--
+			<div class="row text-center">
+				<p>
+					O Polishare precisa de você!! <a href="https://forms.gle/rJfLnrhotVWLY8Ed6" target="_blank"> Clique aqui</a> e nos ajude em 60 segundos!
+					<br>
+					Muito obrigado e bons estudos :)
+				</p>
+			</div>
+			-->
+
+			<div class="page-header text-center">
+				<h1>Crie sua conta</h1>
+			</div>
+			<div class="input-group col-xs-12">
+				<select name = "unidade" class="form-control">
+					<option value="null" disabled selected>Selecione sua unidade</option>
+					<option value="p3">Escola Politécnica</option><option value="9n">Escola de Engenharia de São Carlos</option><option value="3bo">Escola de Engenharia de São Carlos e Instituto de Ciências Matemáticas e de Computação</option>
+				</select>
+			</div>
+			<br/>
+			<div class="input-group col-xs-12">
+				<input type="text" name="name" maxlength="30" class="form-control" placeholder="Nome">
+			</div>
+			<br/>
+			<div class="input-group col-xs-12">
+				<input type="text" name="surname" maxlength="30" class="form-control" placeholder="Sobrenome">
+			</div>
+			<br/>
+			<div class="input-group col-xs-12">
+				<input type="email" name="email1" autocomplete="off" maxlength="254" class="form-control" placeholder="Email Válido">
+			</div>
+			<br/>
+			<div class="input-group col-xs-12 ">
+				<input type="email" name="email2" autocomplete="off" maxlength="254" class="form-control" placeholder="Insira seu email novamente">
+			</div>
+			<br/>
+			<div class="input-group col-xs-12">
+				<input type="password" autocomplete="off" name="security" maxlength="16" class="form-control" placeholder="Senha">
+			</div>
+			<br/>
+
+			<br/>
+			<small>Ao clicar em criar conta, você concorda com nossos termos e leu nossa <a href="./documentos/politica_de_privacidade.pdf" target="_blank">política de privacidade</a> e nossa <a href="./documentos/politica_de_publicacao.pdf" target="_blank">política de publicação</a>. Godaddy</small>
+			<div class="text-center">
+				<div class="btn-group">
+					<button type="submit" class="btn btn-success" >
+						Criar Conta
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<br/>
+
+</div>
+<br/>
+
+
+
+
+
+
+		<!--
+<div class="container" style="padding-top:30px;">
+	<h4>Disciplinas Relacionadas</h4>
+	 <div class="col-md-6">
+
+            <div class="blockquote-box blockquote-info clearfix">
+               <a href="google.com"><div class="square pull-left">
+                    <span class="glyphicon glyphicon-book glyphicon-lg"></span>
+                </div></a>
+                <h4><a href="?pagina=favoritos&amp;action=ap&amp;codigo=z51"><span style="color:#f2d79d" class="glyphicon glyphicon-star-empty"></span></a> <a href=|"#">Álgebra Linear</a></h4>
+                <p>MAT2457<br>| <span class="fa fa-folder-open"></span> <a href="index.php?id=oYmo">Provas</a> | <span class="fa fa-folder-open"></span> <a href="index.php?id=p33">Resoluções</a> | <span class="fa fa-folder-open"></span> <a href="index.php?id=BVNW">Resumos</a>  |</p>
+            </div>
+            
+            
+            </div>
+</div>-->
+		
+
+		<!-- Google Ads begin -->
+		
+		
+		<!-- Google Ads end -->
+
+		
+		
+	
+		
+	
+	</body>
+</html>

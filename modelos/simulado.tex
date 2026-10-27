@@ -1,0 +1,178 @@
+% Modelo de simulado (P2 de PME3100, cinemática). Copie para materias/<matéria>/estudo/simulados/.fontes/<AAAA-MM-DD>-<prova>.tex e troque as questões.
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.9cm,top=1.6cm,bottom=1.8cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,patterns,calc}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage[hidelinks,pdftitle={PME 3100 - Simulado da Prova 2}]{hyperref}
+
+\pagestyle{fancy}\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\cfoot{\small\thepage\ / \pageref{LastPage}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+
+% Notação da Poli: vetores com seta e produto vetorial com \wedge
+\newcommand{\vi}{\vec{\imath}}
+\newcommand{\vj}{\vec{\jmath}}
+\newcommand{\vk}{\vec{k}}
+\newcommand{\questao}[1]{\par\medskip\noindent\underline{\textbf{#1}}\par}
+\newlist{itens}{enumerate}{1}
+\setlist[itens]{label=\textbf{\alph*)}, leftmargin=*, itemsep=1pt, topsep=2pt}
+\newcommand{\pts}[1]{\textbf{(#1)}~}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries PME 3100 -- Mecânica I}\\[2pt]
+  {\large Simulado da Prova 2 \textperiodcentered{} 27 de outubro de 2026}\\[2pt]
+  {\footnotesize\itshape Simulado não oficial, montado a partir das P2 de 2021 a 2025 \textperiodcentered{}
+  120 minutos \textperiodcentered{} sem calculadora e sem consulta \textperiodcentered{} formulário na página 2}
+\end{center}
+\vspace{-4pt}\hrule\vspace{2pt}
+
+% ------------------------------------------------------------------ Questão 1
+\questao{Questão 1 (3,0 pontos).}
+Um ponto $P$ percorre a curva $(P - O) = 2t\,\vi + t^2\,\vj + \tfrac{t^3}{3}\,\vk$, com $t$ em segundos e
+as distâncias em metros. Para o instante $t = 1$~s, pede-se:
+\begin{itens}
+  \item \pts{0,5} A velocidade $\vec v$ e a aceleração $\vec a$ de $P$ na base $(\vi, \vj, \vk)$.
+  \item \pts{0,5} O módulo da velocidade $|\vec v|$ como função de $t$ e a componente tangencial da
+        aceleração $a_t$ em $t = 1$~s.
+  \item \pts{1,0} Os versores tangente $\vec\tau$, normal $\vec n$ e binormal $\vec b$.
+  \item \pts{0,5} A velocidade e a aceleração de $P$ em componentes intrínsecas (base $\vec\tau, \vec n, \vec b$).
+  \item \pts{0,5} O raio de curvatura $\rho$ da trajetória.
+\end{itens}
+
+% ------------------------------------------------------------------ Questão 2
+\questao{Questão 2 (3,5 pontos).}
+\begin{minipage}[c]{0.6\textwidth}
+O disco de centro $C$ e raio $R$ rola sem escorregar sobre o piso horizontal fixo. Ele gira no sentido
+horário com velocidade angular de módulo $\omega$ \textbf{constante}, ou seja,
+$\vec\omega_{\text{disco}} = -\omega\,\vk$. A barra $AB$, de comprimento $2\sqrt{2}\,R$, é articulada em $A$,
+um ponto da periferia do disco, e em $B$, num cursor que desliza ao longo de uma guia vertical fixa.
+
+No instante considerado, $A$ é o \textbf{ponto mais alto} do disco e $(B - A) = 2R\,\vi + 2R\,\vj$. A base
+$(\vi, \vj)$ é fixa, com $\vi$ horizontal para a direita e $\vj$ vertical para cima. Nestas condições,
+pede-se:
+\end{minipage}\hfill
+\begin{minipage}[c]{0.36\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, line cap=round]
+  \def\R{0.62}
+  % piso
+  \fill[pattern=north east lines] (-1.1,-0.16) rectangle (2.2,0);
+  \draw[thick] (-1.1,0) -- (2.2,0);
+  % disco
+  \draw[thick, fill=gray!15] (0,\R) circle (\R);
+  \fill (0,\R) circle (1pt) node[right=1pt, font=\small] {$C$};
+  \draw[->] ($(0,\R)+(150:0.4)$) arc (150:30:0.4);
+  \node[font=\small] at (-0.85,0.75) {$\omega$};
+  % guia vertical fixa em x = 2R
+  \def\xg{1.24}
+  \fill[pattern=north east lines] ({\xg-0.26},1.5) rectangle ({\xg-0.14},3.35);
+  \fill[pattern=north east lines] ({\xg+0.14},1.5) rectangle ({\xg+0.26},3.35);
+  \draw[thick] ({\xg-0.14},1.5) -- ({\xg-0.14},3.35);
+  \draw[thick] ({\xg+0.14},1.5) -- ({\xg+0.14},3.35);
+  % cursor e barra
+  \draw[thick, fill=white] ({\xg-0.12},{4*\R-0.19}) rectangle ({\xg+0.12},{4*\R+0.19});
+  \draw[line width=2.2pt] (0,{2*\R}) -- ({2*\R},{4*\R});
+  \draw[fill=white] (0,{2*\R}) circle (1.7pt) node[left=3pt, font=\small] {$A$};
+  \draw[fill=white] ({2*\R},{4*\R}) circle (1.7pt) node[above left=2pt, font=\small] {$B$};
+  % cotas
+  \draw[densely dashed, gray] (0,0) -- (0,-0.5) ({2*\R},1.5) -- ({2*\R},-0.5);
+  \draw[<->] (0,-0.4) -- ({2*\R},-0.4) node[midway, below, font=\small] {$2R$};
+  \draw[densely dashed, gray] (0.05,{2*\R}) -- (2.0,{2*\R}) ({2*\R+0.3},{4*\R}) -- (2.0,{4*\R});
+  \draw[<->] (1.9,{2*\R}) -- (1.9,{4*\R}) node[midway, right, font=\small] {$2R$};
+  % base
+  \draw[->] (-1.0,2.5) -- ++(0.5,0) node[right, font=\small] {$\vi$};
+  \draw[->] (-1.0,2.5) -- ++(0,0.5) node[above, font=\small] {$\vj$};
+\end{tikzpicture}
+\end{minipage}
+\begin{itens}
+  \item \pts{0,5} A velocidade e a aceleração do ponto $A$.
+  \item \pts{1,0} Determinar graficamente a posição do CIR da barra $AB$ (esboço) e informar o vetor
+        $(\text{CIR} - A)$.
+  \item \pts{1,0} O vetor de rotação $\vec\omega_{AB}$ da barra e a velocidade $\vec v_B$ do cursor.
+  \item \pts{1,0} A aceleração angular $\vec\alpha_{AB}$ da barra e a aceleração $\vec a_B$ do cursor.
+\end{itens}
+
+% ------------------------------------------------------------------ Questão 3
+\questao{Questão 3 (3,5 pontos).}
+\begin{minipage}[c]{0.58\textwidth}
+A coluna de um robô gira em torno do eixo vertical fixo $Oz$ com velocidade angular $\Omega\,\vk$
+\textbf{constante}. Ao mesmo tempo, ela sobe: o ponto $O$ da coluna, sobre o eixo, tem velocidade
+$V\,\vk$ \textbf{constante}.
+
+O braço $OA$, horizontal e de comprimento $L$, é solidário à coluna. O sistema $Oxyz$ é solidário à
+coluna e ao braço, com $Ox$ ao longo de $OA$, então $(A - O) = L\,\vi$. Na extremidade $A$ há um disco de
+centro $A$ e raio $R$, cujo eixo é paralelo a $Oy$. O disco gira em relação ao braço com velocidade
+angular $\omega\,\vj$ e aceleração angular $\dot\omega\,\vj$.
+\end{minipage}\hfill
+\begin{minipage}[c]{0.38\textwidth}\centering
+\begin{tikzpicture}[>=Stealth, line cap=round]
+  % base fixa e eixo
+  \fill[pattern=north east lines] (-0.55,-0.42) rectangle (0.55,-0.3);
+  \draw (-0.55,-0.3) -- (0.55,-0.3);
+  \draw[densely dashed] (0,-0.3) -- (0,3.3) node[above, font=\scriptsize] {$z$ (eixo fixo)};
+  % coluna
+  \draw[thick, fill=gray!15] (-0.14,-0.3) rectangle (0.14,1.9);
+  % Ω (anti-horário visto de cima)
+  \draw[->] ($(0,2.75)+(200:0.42 and 0.14)$) arc (200:340:0.42 and 0.14);
+  \node[font=\small] at (-0.6,2.75) {$\Omega$};
+  % V
+  \draw[->, thick] (-0.5,0.3) -- (-0.5,1.1) node[midway, left, font=\small] {$V$};
+  % braço
+  \draw[thick, fill=gray!35] (0,1.84) rectangle (2.3,1.96);
+  \fill (0,1.9) circle (1.4pt) node[below left=1pt, font=\small] {$O$};
+  \node[font=\small] at (1.15,2.15) {$L$};
+  % disco no plano xz
+  \draw[very thick] (2.3,1.9) circle (0.62);
+  \fill (2.3,1.9) circle (1.3pt) node[below right=0pt, font=\small] {$A$};
+  \draw[densely dashed] (2.3,1.9) -- (2.3,2.52) node[midway, right=-1pt, font=\scriptsize] {$R$};
+  \draw[fill=white] (2.3,2.52) circle (1.6pt) node[above=1pt, font=\small] {$P$};
+  \draw[->] ($(2.3,1.9)+(160:0.82)$) arc (160:40:0.82) node[right, font=\small] {$\omega$};
+  % triedro solidário ao braço
+  \begin{scope}[shift={(2.0,0.0)}]
+    \draw[->] (0,0) -- (0.55,0) node[right, font=\scriptsize] {$x$};
+    \draw[->] (0,0) -- (0,0.55) node[above, font=\scriptsize] {$z$};
+    \draw[->] (0,0) -- (0.34,0.28) node[above right=-2pt, font=\scriptsize] {$y$};
+  \end{scope}
+  \node[font=\scriptsize] at (2.35,-0.45) {($y$ entra no papel)};
+\end{tikzpicture}
+\end{minipage}
+
+No instante considerado, $P$ é o \textbf{ponto mais alto} do disco: $(P - A) = R\,\vk$. Adote o braço
+(sistema $Oxyz$) como \textbf{referencial móvel} e expresse os vetores na base $(\vi, \vj, \vk)$. Nestas
+condições, pede-se:
+\begin{itens}
+  \item \pts{1,0} As velocidades relativa, de arrastamento e absoluta do ponto $P$.
+  \item \pts{1,5} As acelerações relativa, de arrastamento, de Coriolis e absoluta do ponto $P$.
+  \item \pts{0,5} O vetor de rotação absoluto do disco.
+  \item \pts{0,5} A aceleração rotacional absoluta do disco.
+\end{itens}
+
+% ------------------------------------------------------------------ Formulário
+\newpage
+\fcolorbox{gray!60}{gray!8}{\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule}
+\textbf{Formulário}\par\smallskip
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}ll@{}}
+Campo de velocidades & $\vec v_B = \vec v_A + \vec\omega \wedge (B - A)$ \\
+Campo de acelerações & $\vec a_B = \vec a_A + \vec\alpha \wedge (B - A) + \vec\omega \wedge [\vec\omega \wedge (B - A)]$ \\
+Composição de movimentos & $\vec v = \vec v_{\text{rel}} + \vec v_{\text{arr}}$, \quad
+  $\vec a = \vec a_{\text{rel}} + \vec a_{\text{arr}} + \vec a_{\text{Cor}}$, \quad
+  $\vec a_{\text{Cor}} = 2\,\vec\omega_{\text{arr}} \wedge \vec v_{\text{rel}}$ \\
+Composição de rotações & $\vec\omega = \vec\omega_{\text{rel}} + \vec\omega_{\text{arr}}$, \quad
+  $\vec\alpha = \vec\alpha_{\text{rel}} + \vec\alpha_{\text{arr}} + \vec\omega_{\text{arr}} \wedge \vec\omega_{\text{rel}}$ \\
+Cinemática do ponto & $\vec v = v\,\vec\tau$, \quad $\vec a = \dot v\,\vec\tau + \dfrac{v^2}{\rho}\,\vec n$, \quad
+  $\vec b = \vec\tau \wedge \vec n$, \quad $\rho = \dfrac{|\vec v|^3}{|\vec v \wedge \vec a|}$
+\end{tabular}
+\end{minipage}}
+
+\end{document}
