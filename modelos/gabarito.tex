@@ -1,135 +1,161 @@
-% Modelo de gabarito (P2 de PME3100, cinemática). Copie para materias/<matéria>/estudo/simulados/.fontes/<AAAA-MM-DD>-<prova>-gabarito.tex e troque as resoluções.
+% Modelo de gabarito. Copie para materias/<matéria>/estudo/simulados/.fontes/<AAAA-MM-DD>-<prova>-gabarito.tex,
+% ajuste os dados do cabeçalho e escreva as resoluções no lugar dos marcadores.
+% Tudo o que está entre \marcador{...} e a figura de mostruário são exemplos de uso: não aproveite o conteúdo.
 \documentclass[11pt]{article}
-\usepackage[a4paper,margin=1.9cm,top=1.6cm,bottom=1.8cm]{geometry}
+\usepackage[a4paper,left=2.2cm,right=2.2cm,top=3.5cm,bottom=2.4cm,headheight=50pt,headsep=12pt]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[brazil]{babel}
-\usepackage{lmodern}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
 \usepackage{xcolor}
-\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{tabularx,booktabs}
+\usepackage[breakable]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,patterns,calc}
 \usepackage{lastpage}
 \usepackage{fancyhdr}
-\usepackage[hidelinks,pdftitle={PME 3100 - Gabarito do simulado da Prova 2}]{hyperref}
+\usepackage[hidelinks,pdftitle={Simulado - resolução}]{hyperref}
 
-\pagestyle{fancy}\fancyhf{}\renewcommand{\headrulewidth}{0pt}
-\cfoot{\small\thepage\ / \pageref{LastPage}}
+% ---------------------------------------------------------------- dados do simulado
+\newcommand{\materia}{PME 3100 -- MECÂNICA I}
+\newcommand{\prova}{Prova 2}
+\newcommand{\ano}{2026}
+
+% ---------------------------------------------------------------- cabeçalho da Poli
+\newcommand{\brasao}{\IfFileExists{../../../../../modelos/poli.png}%
+  {\includegraphics[height=1.55cm]{../../../../../modelos/poli.png}}{}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\brasao}
+\fancyhead[C]{\large ESCOLA POLITÉCNICA DA UNIVERSIDADE DE SÃO PAULO\\[7pt] \materia\\[-3pt]}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\cfoot{\thepage}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt}
 
+% ---------------------------------------------------------------- notação e resolução
 \newcommand{\vi}{\vec{\imath}}
 \newcommand{\vj}{\vec{\jmath}}
 \newcommand{\vk}{\vec{k}}
-\newcommand{\questao}[1]{\par\medskip\noindent\underline{\textbf{#1}}\par}
-\newcommand{\res}[1]{\boxed{#1}}
+\newcommand{\marcador}[1]{\ifmmode\text{\color{gray}$\langle$\textit{#1}$\rangle$}\else\leavevmode{\color{gray}$\langle$\textit{#1}$\rangle$}\fi}
+\definecolor{pontos}{RGB}{190,30,30}
 \newcommand{\ok}{\;\checkmark}
-\newlist{itens}{enumerate}{1}
-\setlist[itens]{label=\textbf{\alph*)}, leftmargin=*, itemsep=4pt, topsep=2pt}
-% Tabela de critérios: \criterios{ a) & ... \\ b) & ... \\ }
+% \resolucao{n}{valor}: título centrado de cada questão
+\newcommand{\resolucao}[2]{\par\bigskip\begin{center}\underline{\textbf{Resolução -- Questão #1 (#2 pontos)}}\end{center}}
+% \passo{a)}{Título}: abre o item; o texto segue na mesma linha
+\newcommand{\passo}[2]{\par\smallskip\noindent\textbf{#1 #2.}\ }
+% \pontos{0,5}: pontuação do passo, em vermelho na margem direita
+\newcommand{\pontos}[1]{\hfill{\color{pontos}(#1)}}
+% \resultado{<matemática>}{0,5}: resposta final em caixa, com a pontuação na margem
+\newcommand{\resultado}[2]{\par\smallskip\noindent\fbox{$\displaystyle #1$}\pontos{#2}\par\smallskip}
+% \res{<matemática>}: resposta em caixa dentro do texto
+\newcommand{\res}[1]{\boxed{#1}}
+% Observações do corretor: \begin{armadilhas} \item ... \end{armadilhas}
+\newtcolorbox{armadilhasbox}{breakable, sharp corners, boxrule=0.5pt, colback=white, colframe=black!75,
+  left=5pt, right=5pt, top=4pt, bottom=4pt}
+\newenvironment{armadilhas}
+  {\begin{armadilhasbox}\textbf{Observações do corretor (armadilhas desta questão).}
+   \begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=*, nosep]}
+  {\end{enumerate}\end{armadilhasbox}}
+% Tabela de critérios, lida pelo /corrigir: \criterios{ a) & ... \\ b) & ... \\ }
 \newcommand{\criterios}[1]{\par\smallskip{\small
-  \begin{tabularx}{\textwidth}{|l|X|}\hline \textbf{Item} & \textbf{Critério de correção} \\\hline #1 \hline\end{tabularx}}\par}
+  \begin{tabularx}{\textwidth}{@{}lX@{}}\toprule \textbf{Item} & \textbf{Critério de correção} \\\midrule
+  #1 \bottomrule\end{tabularx}}\par}
 \newcommand{\inspirada}[1]{\par{\small\itshape Inspirada em: #1}\par}
+
+% ---------------------------------------------------------------- kit TikZ (o mesmo do simulado)
+% Na resolução, redesenhe a figura da questão e marque a construção com construcao e vetorres.
+\tikzset{
+  >=Stealth,
+  every picture/.append style={line cap=round, line join=round, font=\small},
+  solo/.style={pattern=north east lines, draw=none},
+  corpo/.style={thick, fill=gray!12},
+  barra/.style={line width=2.4pt},
+  ponto/.style={circle, fill, inner sep=1.1pt},
+  articulacao/.style={circle, draw, fill=white, inner sep=1.5pt},
+  vetor/.style={->, thick},
+  cota/.style={<->, thin},
+  auxiliar/.style={densely dashed, gray},
+  construcao/.style={densely dashed, pontos},
+  vetorres/.style={->, thick, pontos},
+  cavaleira/.style={x={(-0.45cm,-0.38cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}},
+  pics/eixos3d/.style={code={
+    \draw[->] (0,0,0) -- (#1,0,0) node[pos=1.12] {$x$};
+    \draw[->] (0,0,0) -- (0,#1,0) node[pos=1.1] {$y$};
+    \draw[->] (0,0,0) -- (0,0,#1) node[pos=1.1] {$z$};}},
+  pics/eixos3d/.default=1,
+}
+\newcommand{\piso}[2]{\fill[solo] ($#1+(0,-0.18)$) rectangle #2; \draw[thick] #1 -- #2;}
+\newcommand{\parede}[3]{\fill[solo] #1 rectangle ($#2+(#3,0)$); \draw[thick] #1 -- #2;}
+\newcommand{\giro}[5][]{\draw[->,#1] #2 ++(#3:#5) arc (#3:#4:#5)}
 
 \begin{document}
 
 \begin{center}
-  {\Large\bfseries PME 3100 -- Mecânica I}\\[2pt]
-  {\large Gabarito do simulado da Prova 2 \textperiodcentered{} 27 de outubro de 2026}\\[2pt]
-  {\footnotesize\itshape Cada vetor parcial vale de 0,25 a 0,5. Um erro algébrico simples desconta 0,25 só no
-  item onde ocorreu; o erro propagado não é descontado de novo.}
+  {\bfseries \materia{} -- \ano{} -- \prova{} (Simulado) -- RESOLUÇÃO}\\[2pt]
+  {\itshape Cada valor em vermelho é a pontuação do passo.
+  \marcador{critério de desconto da prova real, tirado do mapa}}
 \end{center}
-\vspace{-4pt}\hrule\vspace{2pt}
 
-% ------------------------------------------------------------------ Questão 1
-\questao{Questão 1 (3,0 pontos)}
-\begin{itens}
-  \item $\vec v = 2\,\vi + 2t\,\vj + t^2\,\vk$ e $\vec a = 2\,\vj + 2t\,\vk$. Em $t = 1$~s:
-    \quad $\res{\vec v = 2\,\vi + 2\,\vj + \vk \ \text{(m/s)}}$ \quad $\res{\vec a = 2\,\vj + 2\,\vk \ \text{(m/s}^2\text{)}}$
-  \item $|\vec v|^2 = 4 + 4t^2 + t^4 = (t^2 + 2)^2$, então $\res{|\vec v| = t^2 + 2 \ \text{(m/s)}}$ e
-    $a_t = \dfrac{d|\vec v|}{dt} = 2t$, ou seja, $\res{a_t = 2 \ \text{m/s}^2}$ em $t = 1$~s.
-    Pelo outro caminho, $a_t = \vec a \cdot \vec\tau = (0 + 4 + 2)/3 = 2$. Em $t = 1$~s, $|\vec v| = 3$~m/s.
-  \item $\res{\vec\tau = \dfrac{\vec v}{|\vec v|} = \dfrac{2\,\vi + 2\,\vj + \vk}{3}}$. A parcela normal é
-    $a_n\,\vec n = \vec a - a_t\,\vec\tau = -\tfrac43\,\vi + \tfrac23\,\vj + \tfrac43\,\vk$, de módulo
-    $a_n = \sqrt{16 + 4 + 16}/3 = 2$, então
-    $\res{\vec n = \dfrac{-2\,\vi + \vj + 2\,\vk}{3}}$ e $\res{\vec b = \vec\tau \wedge \vec n = \dfrac{\vi - 2\,\vj + 2\,\vk}{3}}$.
-    Conferência: $\vec v \wedge \vec a = 2\,\vi - 4\,\vj + 4\,\vk$, na direção de $\vec b$\ok.
-  \item $\res{\vec v = 3\,\vec\tau \ \text{(m/s)}}$ e $\res{\vec a = 2\,\vec\tau + 2\,\vec n \ \text{(m/s}^2\text{)}}$.
-    A componente binormal é nula.
-  \item $\res{\rho = \dfrac{|\vec v|^2}{a_n} = \dfrac92 = 4{,}5 \ \text{m}}$. Pela fórmula,
-    $\rho = |\vec v|^3/|\vec v \wedge \vec a| = 27/6 = 4{,}5$~m\ok.
-\end{itens}
-\criterios{
-  a) & $\vec v$ 0,25; $\vec a$ 0,25 \\
-  b) & $|\vec v(t)|$ 0,25; $a_t$ 0,25. Aceite $a_t = \vec a \cdot \vec\tau$ sem $|\vec v(t)|$ só se $|\vec v| = 3$ estiver certo. \\
-  c) & $\vec\tau$ 0,25; $\vec n$ 0,5; $\vec b$ 0,25 \\
-  d) & $\vec v$ 0,25; $\vec a$ 0,25 \\
-  e) & $\rho$ 0,5 \\
-}
-\inspirada{2024 Q1 (curva 3D, Frenet e $\rho = |\vec v|^3/|\vec v \wedge \vec a|$), 2023 Q1 ($a_t \neq 0$,
-$\vec a = a_t\vec\tau + a_n\vec n$) e 2022R Q1 ($\vec b = \vec\tau \wedge \vec n$). Diferente de 2024 e
-2022R, aqui $a_t \neq 0$: $\vec n$ não sai direto de $\vec a/|\vec a|$.}
+% ---------------------------------------------------------------- questão 1
+\resolucao{1}{3,0}
 
-% ------------------------------------------------------------------ Questão 2
-\questao{Questão 2 (3,5 pontos)}
-Origem no ponto de contato do disco com o piso: $C = (0, R)$, $A = (0, 2R)$, $B = (2R, 4R)$.
-\begin{itens}
-  \item O CIR do disco é o ponto de contato $I_d$ (rolamento sem escorregamento):
-    $\vec v_A = -\omega\,\vk \wedge 2R\,\vj$, ou seja, $\res{\vec v_A = 2\omega R\,\vi}$. Como $\omega$ é
-    constante, $\vec\alpha_{\text{disco}} = \vec 0$ e $\vec a_C = \vec 0$, logo $\vec a_A = -\omega^2 (A - C)$:
-    $\res{\vec a_A = -\omega^2 R\,\vj}$ (aponta para o centro).
-  \item $\vec v_A$ é horizontal, então o CIR está na \textbf{vertical por $A$}; $\vec v_B$ é vertical (guia),
-    então o CIR está na \textbf{horizontal por $B$}. O cruzamento é $\text{CIR}_{AB} = (0, 4R)$:
-    $\res{(\text{CIR} - A) = 2R\,\vj}$. No esboço, as perpendiculares às velocidades de $A$ e de $B$ se
-    cruzam acima de $A$, na altura de $B$.
-  \item $\vec v_A = \vec\omega_{AB} \wedge (A - \text{CIR}) = \omega_{AB}\,\vk \wedge (-2R\,\vj) = 2R\,\omega_{AB}\,\vi$.
-    Igualando a $2\omega R\,\vi$: $\res{\vec\omega_{AB} = \omega\,\vk}$ (anti-horário). Então
-    $\vec v_B = \omega\,\vk \wedge 2R\,\vi$, ou seja, $\res{\vec v_B = 2\omega R\,\vj}$ (o cursor sobe).
-    Conferência pelas projeções: $\vec v_A \cdot (B - A) = 4\omega R^2 = \vec v_B \cdot (B - A)$\ok.
-  \item Com $\vec a_B = a_B\,\vj$ (guia vertical):
-    \[ \vec a_B = \vec a_A + \alpha_{AB}\,\vk \wedge (2R\,\vi + 2R\,\vj) - \omega^2 (2R\,\vi + 2R\,\vj)
-       = (-2R\alpha_{AB} - 2\omega^2 R)\,\vi + (-\omega^2 R + 2R\alpha_{AB} - 2\omega^2 R)\,\vj \]
-    A componente em $\vi$ tem que ser nula: $\res{\vec\alpha_{AB} = -\omega^2\,\vk}$. Na componente em $\vj$:
-    $\res{\vec a_B = -5\omega^2 R\,\vj}$.
-\end{itens}
-\criterios{
-  a) & $\vec v_A$ 0,25; $\vec a_A$ 0,25. Zero em $\vec a_A$ se usar $\vec a_A = \vec 0$ ``porque $\omega$ é constante''. \\
-  b) & desenho com as duas perpendiculares 0,5; $(\text{CIR} - A)$ 0,5 \\
-  c) & $\vec\omega_{AB}$ 0,5 (sinal incluso); $\vec v_B$ 0,5 \\
-  d) & equação vetorial montada com o vínculo da guia 0,3; $\vec\alpha_{AB}$ 0,35; $\vec a_B$ 0,35 \\
-}
-\inspirada{2024R Q3 (disco com $\omega$ constante rolando, ponto mais alto, barra, CIR por esboço e $\alpha$
-pela barra), 2023 Q2 (rolamento + guia; CIR no cruzamento da vertical com a horizontal) e 2025 Q2d
-(aceleração de ponto de barra).}
+\marcador{Dados de partida: referenciais, vetores conhecidos, posições no instante.}
 
-% ------------------------------------------------------------------ Questão 3
-\questao{Questão 3 (3,5 pontos)}
-Referencial móvel: o braço ($Oxyz$). Então $\vec\omega_{\text{arr}} = \Omega\,\vk$,
-$\vec\alpha_{\text{arr}} = \vec 0$, $\vec v_O = V\,\vk$ e $\vec a_O = \vec 0$, com $(P - O) = L\,\vi + R\,\vk$ e
-$(P - A) = R\,\vk$.
-\begin{itens}
-  \item $\res{\vec v_{\text{rel}} = \omega\,\vj \wedge R\,\vk = \omega R\,\vi}$ \quad
-    $\res{\vec v_{\text{arr}} = V\,\vk + \Omega\,\vk \wedge (L\,\vi + R\,\vk) = \Omega L\,\vj + V\,\vk}$ \\[3pt]
-    $\res{\vec v_P = \omega R\,\vi + \Omega L\,\vj + V\,\vk}$
-  \item $\res{\vec a_{\text{rel}} = \dot\omega\,\vj \wedge R\,\vk + \omega\,\vj \wedge (\omega\,\vj \wedge R\,\vk) = \dot\omega R\,\vi - \omega^2 R\,\vk}$ \\[3pt]
-    $\res{\vec a_{\text{arr}} = \Omega\,\vk \wedge [\Omega\,\vk \wedge (L\,\vi + R\,\vk)] = -\Omega^2 L\,\vi}$
-    (o $V$ constante não contribui) \\[3pt]
-    $\res{\vec a_{\text{Cor}} = 2\,\Omega\,\vk \wedge \omega R\,\vi = 2\,\Omega\omega R\,\vj}$ \\[3pt]
-    $\res{\vec a_P = (\dot\omega R - \Omega^2 L)\,\vi + 2\,\Omega\omega R\,\vj - \omega^2 R\,\vk}$
-  \item $\res{\vec\omega = \vec\omega_{\text{rel}} + \vec\omega_{\text{arr}} = \omega\,\vj + \Omega\,\vk}$
-  \item $\res{\vec\alpha = \dot\omega\,\vj + \vec 0 + \Omega\,\vk \wedge \omega\,\vj = -\Omega\omega\,\vi + \dot\omega\,\vj}$
-\end{itens}
-Conferência pelo campo de acelerações do disco: com $\vec v_A = V\,\vk + \Omega L\,\vj$ e
-$\vec a_A = -\Omega^2 L\,\vi$, a expressão
-$\vec a_P = \vec a_A + \vec\alpha \wedge R\,\vk + \vec\omega \wedge (\vec\omega \wedge R\,\vk)$ dá a mesma
-resposta do item b\ok.
+\begin{minipage}[t]{0.56\textwidth}
+\passo{a)}{\marcador{Título do item}} \marcador{Raciocínio em uma ou duas frases, com a fórmula usada.}
+\[ \vec v_B = \vec v_A + \vec\omega \wedge (B - A) \]
+\resultado{\vec v_B = \marcador{resposta}}{0,5}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.40\textwidth}\centering\vspace{0pt}
+\begin{tikzpicture}
+  % Mostruário da construção gráfica. Troque pela figura da questão com a construção marcada.
+  \coordinate (A) at (0,0); \coordinate (B) at (2.2,1.2); \coordinate (I) at (0,2.2);
+  \draw[barra] (A) -- (B);
+  \node[articulacao, label=below:$A$] at (A) {}; \node[articulacao, label=right:$B$] at (B) {};
+  \draw[vetorres] (A) -- ++(0.8,0) node[below] {$\vec v_A$};
+  \draw[vetorres] (B) -- ++(0,0.7) node[right] {$\vec v_B$};
+  \draw[construcao] (A) -- (I) -- (B);
+  \node[ponto, pontos, label={[pontos]above:CIR}] at (I) {};
+\end{tikzpicture}
+\end{minipage}
+
+\passo{b)}{\marcador{Título do item}} \marcador{Conta.}
+\resultado{\marcador{resposta}}{1,0}
+Conferência por outro caminho: \marcador{propriedade das projeções, outro polo, outro método}\ok
+
+\begin{armadilhas}
+  \item \marcador{O erro mais comum neste item, o que ele dá e por que está errado.}
+  \item \marcador{O ``zero'' que é mesmo zero, ou o que parece zero e não é.}
+\end{armadilhas}
+
 \criterios{
-  a) & $\vec v_{\text{rel}}$ 0,4; $\vec v_{\text{arr}}$ 0,4 (vale 0,2 se esquecer $V\,\vk$); $\vec v_{\text{abs}}$ 0,2 \\
-  b) & $\vec a_{\text{rel}}$ 0,4 (0,2 sem o termo $\dot\omega R\,\vi$); $\vec a_{\text{arr}}$ 0,4; $\vec a_{\text{Cor}}$ 0,4 (inclui o fator 2); $\vec a_{\text{abs}}$ 0,3 \\
-  c) & $\vec\omega$ 0,5 \\
-  d) & $\vec\alpha$ 0,5 (vale 0,25 sem o termo $\vec\omega_{\text{arr}} \wedge \vec\omega_{\text{rel}}$) \\
+  a) & \marcador{parcela} 0,25; \marcador{parcela} 0,25 \\
+  b) & \marcador{parcela} 0,5; \marcador{parcela} 0,5. \marcador{Crédito parcial: vale 0,25 se...} \\
 }
-\inspirada{2025 Q3 (garfo que gira e translada; o arrastamento inclui a translação da origem), 2022 Q1
-(cilindro que gira e sobe, disco num braço), 2022R Q3 (plataforma + braço + disco com $P$ no ponto mais
-alto) e 2024 Q3 ($\alpha$ absoluto com $\vec\omega_{\text{arr}} \wedge \vec\omega_{\text{rel}}$).}
+\inspirada{\marcador{prova e questão de origem, citadas do mapa, e o que mudou aqui}.}
+
+% ---------------------------------------------------------------- mapa do simulado
+\clearpage
+\begin{center}\underline{\textbf{Mapa do simulado -- o que cada item treina}}\end{center}
+
+{\small
+\begin{tabularx}{\textwidth}{@{}lXp{4.6cm}@{}}
+\toprule
+\textbf{Item} & \textbf{Conteúdo / habilidade} & \textbf{Onde caiu antes} \\
+\midrule
+1a & \marcador{habilidade treinada} & \marcador{prova e questão, do mapa} \\
+1b & \marcador{habilidade treinada} & \marcador{``nunca caiu'', se for o caso} \\
+\bottomrule
+\end{tabularx}}
+
+\textbf{Como usar.} \marcador{Faça com cronômetro na duração da prova real, corrija pelos valores em vermelho e
+anote, em cada item perdido, a observação do corretor que explica o erro. Diga quais itens refazer na véspera.}
+
+\textbf{Autoavaliação.} \marcador{Faixas de nota com o que fazer em cada uma, citando as provas antigas a
+refazer.}
 
 \end{document}

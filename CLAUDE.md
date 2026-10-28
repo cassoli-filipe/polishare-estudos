@@ -81,9 +81,13 @@ uv run polishare pdf --todos                          # recompila tudo
 - O motor é o Tectonic (`brew install tectonic`), que baixa os pacotes LaTeX na primeira vez (uns 2
   min) e depois usa o cache. Se ele não estiver instalado, o comando usa `latexmk` ou `pdflatex`.
   Fontes `.typ` (Typst) também compilam.
-- Figuras em TikZ dentro do `.tex`. Os SVGs em `.fontes/` são convertidos para PDF automaticamente.
+- Figuras em TikZ dentro do `.tex`, com o kit de estilos do preâmbulo dos modelos. Os SVGs em
+  `.fontes/` são convertidos para PDF automaticamente.
 - Os modelos ficam em `modelos/simulado.tex` e `modelos/gabarito.tex`, fora de `materias/` para irem
-  junto com o repositório. Um teste confere que eles compilam.
+  junto com o repositório. Eles trazem o visual (Palatino, cabeçalho da Poli, formulário) e
+  marcadores `\marcador{...}` no lugar das questões, para nenhum simulado herdar questões prontas. O
+  brasão é `modelos/poli.png`, achado pelo caminho relativo a partir de `.fontes/`; sem ele, o
+  cabeçalho sai só com texto. Testes conferem que os modelos compilam com e sem o brasão.
 - O `polishare pdf` avisa se encontrar `.md` em `simulados/`.
 - Um gancho `PostToolUse` (`.claude/settings.json`) roda `polishare pdf` sempre que o Claude salva
   um `.tex`, `.typ` ou `.svg` em `simulados/.fontes/`. Se o LaTeX falhar, o erro volta para o Claude

@@ -128,7 +128,18 @@ def test_compila_latex_e_so_deixa_o_pdf(simulados):
 def test_modelos_do_repositorio_compilam(simulados, modelo):
     fonte = simulados / modelo
     shutil.copy(MODELOS / modelo, fonte)
-    assert compilar(fonte).read_bytes().startswith(b"%PDF")
+    pdf = compilar(fonte).read_bytes()
+    assert pdf.startswith(b"%PDF") and b"/Subtype/Image" not in pdf  # sem modelos/poli.png, só o texto
+
+
+@pytest.mark.skipif(not shutil.which("tectonic"), reason="Tectonic não instalado")
+def test_modelo_poe_o_brasao_no_cabecalho(simulados):
+    raiz = simulados.parents[4]  # .fontes → simulados → estudo → matéria → materias → raiz
+    (raiz / "modelos").mkdir()
+    shutil.copy(MODELOS / "poli.png", raiz / "modelos" / "poli.png")
+    fonte = simulados / "simulado.tex"
+    shutil.copy(MODELOS / "simulado.tex", fonte)
+    assert b"/Subtype/Image" in compilar(fonte).read_bytes()
 
 
 @pytest.mark.skipif(not shutil.which("tectonic"), reason="Tectonic não instalado")
